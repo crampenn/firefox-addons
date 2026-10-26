@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "lazy-girl-romance@local": {
+      "updates": [
+        {
+          "version": "1.8.2",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/lazy-girl-romance-v1.8.2/lazy-girl-romance-1.8.2.xpi"
+        }
+      ]
+    }
+  }
+}
