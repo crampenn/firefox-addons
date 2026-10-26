@@ -1,0 +1,90 @@
+name: Release add-on
+
+on:
+  workflow_call:
+    inputs:
+      slug:
+        description: Name used for the release tag, .xpi and updates/<slug>.json
+        required: true
+        type: string
+    secrets:
+      AMO_JWT_ISSUER:
+        required: true
+      AMO_JWT_SECRET:
+        required: true
+      RELEASES_TOKEN:
+        description: Fine-grained token with Contents read/write on crampenn/firefox-addons
+        required: true
+
+env:
+  RELEASES_REPO: crampenn/firefox-addons
+  SLUG: ${{ inputs.slug }}
+  GH_TOKEN: ${{ secrets.RELEASES_TOKEN }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Inside a reusable workflow this checks out the calling add-on repo
+      - uses: actions/checkout@v4
+
+      - name: Read manifest
+        id: manifest
+        run: |
+          version=$(jq -r .version manifest.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "id=$(jq -r .browser_specific_settings.gecko.id manifest.json)" >> "$GITHUB_OUTPUT"
+          # AMO won't sign the same version twice, so only release on a version bump
+          if gh release view "$SLUG-v$version" --repo "$RELEASES_REPO" >/dev/null 2>&1; then
+            echo "Release $SLUG-v$version already exists, skipping"
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.manifest.outputs.exists != 'true'
+        with:
+          node-version: 20
+
+      - name: Sign with AMO (unlisted)
+        if: steps.manifest.outputs.exists != 'true'
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: npx --yes web-ext@8.3.0 sign --channel unlisted --artifacts-dir dist
+
+      - name: Create release
+        if: steps.manifest.outputs.exists != 'true'
+        env:
+          VERSION: ${{ steps.manifest.outputs.version }}
+        run: |
+          mv dist/*.xpi "$SLUG-$VERSION.xpi"
+          gh release create "$SLUG-v$VERSION" "$SLUG-$VERSION.xpi" \
+            --repo "$RELEASES_REPO" --title "$SLUG v$VERSION" --notes ""
+
+      - uses: actions/checkout@v4
+        if: steps.manifest.outputs.exists != 'true'
+        with:
+          repository: crampenn/firefox-addons
+          token: ${{ secrets.RELEASES_TOKEN }}
+          path: releases
+
+      - name: Update updates/${{ inputs.slug }}.json
+        if: steps.manifest.outputs.exists != 'true'
+        working-directory: releases
+        env:
+          VERSION: ${{ steps.manifest.outputs.version }}
+          ADDON_ID: ${{ steps.manifest.outputs.id }}
+        run: |
+          link="https://github.com/$RELEASES_REPO/releases/download/$SLUG-v$VERSION/$SLUG-$VERSION.xpi"
+          jq -n --arg id "$ADDON_ID" --arg v "$VERSION" --arg link "$link" \
+            '{addons: {($id): {updates: [{version: $v, update_link: $link}]}}}' > "updates/$SLUG.json"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "updates/$SLUG.json"
+          git commit -m "$SLUG v$VERSION"
+          # Another add-on may have released at the same moment
+          for attempt in 1 2 3; do
+            git pull --rebase && git push && exit 0
+            sleep 5
+          done
+          exit 1
