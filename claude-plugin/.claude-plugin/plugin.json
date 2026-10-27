@@ -1,0 +1,5 @@
+{
+  "name": "firefox-addons",
+  "version": "0.1.0",
+  "description": "Version-bump rule and auto-release setup for crampenn's Firefox add-ons"
+}

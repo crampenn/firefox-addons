@@ -6,6 +6,14 @@ Signed builds and update manifests for crampenn's self-distributed (unlisted) Fi
 - Releases — signed `.xpi` files, tagged `<slug>-v<version>`
 - `.github/workflows/release-addon.yml` — reusable workflow that signs an add-on and publishes it here
 
+## Claude Code plugin
+
+`claude-plugin/` is a Claude Code plugin with the version-bump rule (a skill plus a Stop hook that blocks finishing a turn without a bump) and the steps below. Install it once per machine:
+
+```
+/plugin install firefox-addons --marketplace crampenn/firefox-addons
+```
+
 ## Adding an add-on
 
 1. In the add-on repo, add `.github/workflows/release.yml`:

@@ -1,0 +1,14 @@
+{
+  "name": "crampenn-firefox",
+  "owner": {
+    "name": "crampenn"
+  },
+  "description": "Claude Code plugins for crampenn's Firefox add-ons",
+  "plugins": [
+    {
+      "name": "firefox-addons",
+      "source": "./claude-plugin",
+      "description": "Version-bump rule and auto-release setup for crampenn's Firefox add-ons"
+    }
+  ]
+}

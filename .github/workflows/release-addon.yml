@@ -36,7 +36,7 @@ jobs:
           echo "id=$(jq -r .browser_specific_settings.gecko.id manifest.json)" >> "$GITHUB_OUTPUT"
           # AMO won't sign the same version twice, so only release on a version bump
           if gh release view "$SLUG-v$version" --repo "$RELEASES_REPO" >/dev/null 2>&1; then
-            echo "Release $SLUG-v$version already exists, skipping"
+            echo "::warning::$SLUG-v$version is already released; bump the version in manifest.json to release this push"
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
 
