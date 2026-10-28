@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "waxonomy-booker@local": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/waxonomy-booker-v1.0/waxonomy-booker-1.0.xpi"
+        }
+      ]
+    }
+  }
+}
