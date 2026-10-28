@@ -13,8 +13,9 @@ cd "$root" || exit 0
 [ -f manifest.json ] || exit 0
 jq -e '.browser_specific_settings.gecko' manifest.json >/dev/null 2>&1 || exit 0
 
-# Compare against what's pushed (or HEAD if there's no upstream) so unpushed commits count too
-base=$(git rev-parse -q --verify '@{upstream}' 2>/dev/null || git rev-parse -q --verify HEAD) || exit 0
+# Compare against what's pushed so unpushed commits count too. With no upstream
+# nothing has been released yet, so the current version is still unreleased.
+base=$(git rev-parse -q --verify '@{upstream}' 2>/dev/null) || exit 0
 base_version=$(git show "$base:manifest.json" 2>/dev/null | jq -r '.version // empty')
 [ -n "$base_version" ] || exit 0
 version=$(jq -r '.version // empty' manifest.json)
