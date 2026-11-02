@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "amazon-to-sheet@local": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/amazon-to-sheet-v1.0/amazon-to-sheet-1.0.xpi"
+        }
+      ]
+    }
+  }
+}
