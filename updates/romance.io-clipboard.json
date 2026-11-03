@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "romance-io-clip@local": {
+      "updates": [
+        {
+          "version": "1.4",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/romance.io-clipboard-v1.4/romance.io-clipboard-1.4.xpi"
+        }
+      ]
+    }
+  }
+}
