@@ -9,11 +9,16 @@
 #   OP_AMO_JWT_ISSUER, OP_AMO_JWT_SECRET, OP_RELEASES_TOKEN
 set -euo pipefail
 
-# Vault is "Joe's Vault", referenced by ID because secret references can't contain an apostrophe.
+vault_id=ied4g7xjwzfezjlqya7myhyp54
+addon_key_item=yap5d6u3hdukx65tf3pol3emta
+jwt_issuer_field=iuq3kwsdjk7xbhqfb6yyzr6squ
+jwt_secret_field=xmoqd2kumbohregslmltjhylje
+workflow_pat_item=jyjcerckqpbilsrxskcds4z624
+token_field=74xyvrd5hudofjtub462hdt5ni
 
-: "${OP_AMO_JWT_ISSUER:=op://ied4g7xjwzfezjlqya7myhyp54/Firefox Add on key/JWT issuer}"
-: "${OP_AMO_JWT_SECRET:=op://ied4g7xjwzfezjlqya7myhyp54/Firefox Add on key/JWT secret}"
-: "${OP_RELEASES_TOKEN:=op://ied4g7xjwzfezjlqya7myhyp54/Firefox Workflow PAT/token}"
+: "${OP_AMO_JWT_ISSUER:=op://$vault_id/$addon_key_item/$jwt_issuer_field}"
+: "${OP_AMO_JWT_SECRET:=op://$vault_id/$addon_key_item/$jwt_secret_field}"
+: "${OP_RELEASES_TOKEN:=op://$vault_id/$workflow_pat_item/$token_field}"
 
 log()  { printf '==> %s\n' "$*"; }
 info() { printf '    %s\n' "$*"; }
