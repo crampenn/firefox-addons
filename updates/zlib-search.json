@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "z-library-search@local": {
+      "updates": [
+        {
+          "version": "1.2",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/zlib-search-v1.2/zlib-search-1.2.xpi"
+        }
+      ]
+    }
+  }
+}
