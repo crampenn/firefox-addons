@@ -31,7 +31,10 @@ Signed builds and update manifests for crampenn's self-distributed (unlisted) Fi
        secrets: inherit
    ```
 
-2. Set the `AMO_JWT_ISSUER`, `AMO_JWT_SECRET` and `RELEASES_TOKEN` secrets in the add-on repo.
+2. Set the `AMO_JWT_ISSUER`, `AMO_JWT_SECRET` and `RELEASES_TOKEN` secrets in the add-on repo:
+   run `scripts/set-secrets.sh` (Git Bash on Windows), which asks for the repo and reads the values
+   from 1Password via the `op` CLI. Override the 1Password references with `OP_AMO_JWT_ISSUER`,
+   `OP_AMO_JWT_SECRET` and `OP_RELEASES_TOKEN` if needed.
 3. Set `browser_specific_settings.gecko.update_url` in its `manifest.json` to
    `https://raw.githubusercontent.com/crampenn/firefox-addons/main/updates/<slug>.json`.
 
