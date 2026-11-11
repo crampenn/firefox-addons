@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "amazon-out-for-delivery@local": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/amazon-out-for-delivery-v1.0/amazon-out-for-delivery-1.0.xpi"
+        }
+      ]
+    }
+  }
+}
