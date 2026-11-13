@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "storytether@local": {
+      "updates": [
+        {
+          "version": "1.1",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/storytether-v1.1/storytether-1.1.xpi"
+        }
+      ]
+    }
+  }
+}
