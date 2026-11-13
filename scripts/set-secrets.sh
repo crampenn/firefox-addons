@@ -3,7 +3,8 @@
 # add-on repo, reading the values from 1Password with the `op` CLI.
 #
 # Usage: scripts/set-secrets.sh [owner/repo | repo]
-#   With no argument, prompts for the repo. A bare name means crampenn/<name>.
+#   With no argument, offers crampenn/<current folder name>; if you decline,
+#   prompts for the repo. A bare name means crampenn/<name>.
 #
 # The 1Password secret references can be overridden with env vars:
 #   OP_AMO_JWT_ISSUER, OP_AMO_JWT_SECRET, OP_RELEASES_TOKEN
@@ -32,7 +33,13 @@ done
 
 repo="${1:-}"
 if [[ -z "$repo" ]]; then
-  read -rp "Repo (owner/name, or name for crampenn/<name>): " repo
+  suggested="crampenn/$(basename "$PWD")"
+  read -rp "Use $suggested? [Y/n] " answer
+  if [[ -z "$answer" || "$answer" =~ ^[Yy] ]]; then
+    repo="$suggested"
+  else
+    read -rp "Repo (owner/name, or name for crampenn/<name>): " repo
+  fi
 fi
 repo="${repo// /}"
 [[ -n "$repo" ]] || die "no repo given"
