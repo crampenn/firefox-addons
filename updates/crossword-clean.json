@@ -1,0 +1,12 @@
+{
+  "addons": {
+    "crossword-clean@local": {
+      "updates": [
+        {
+          "version": "1.0",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/crossword-clean-v1.0/crossword-clean-1.0.xpi"
+        }
+      ]
+    }
+  }
+}
