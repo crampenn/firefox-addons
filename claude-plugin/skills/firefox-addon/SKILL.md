@@ -39,6 +39,8 @@ How it fits together:
 
    jobs:
      release:
+       permissions:
+         contents: write
        uses: crampenn/firefox-addons/.github/workflows/release-addon.yml@main
        with:
          slug: <slug>

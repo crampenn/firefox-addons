@@ -25,6 +25,8 @@ Signed builds and update manifests for crampenn's self-distributed (unlisted) Fi
        branches: [main]
    jobs:
      release:
+       permissions:
+         contents: write
        uses: crampenn/firefox-addons/.github/workflows/release-addon.yml@main
        with:
          slug: <slug>

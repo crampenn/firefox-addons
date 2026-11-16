@@ -88,3 +88,15 @@ jobs:
             sleep 5
           done
           exit 1
+
+      # Last, so a missing permission here can't leave the update manifest behind.
+      # Needs `permissions: contents: write` in the calling repo's release.yml.
+      - name: Create release in ${{ github.repository }}
+        if: steps.manifest.outputs.exists != 'true'
+        env:
+          VERSION: ${{ steps.manifest.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v$VERSION" "$SLUG-$VERSION.xpi" \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "v$VERSION" \
+            --notes "To install, download \`$SLUG-$VERSION.xpi\` below and open it in Firefox (or drag it into a Firefox window). It updates itself after that."
