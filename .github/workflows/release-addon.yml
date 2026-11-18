@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Inside a reusable workflow this checks out the calling add-on repo
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Read manifest
         id: manifest
@@ -40,17 +40,17 @@ jobs:
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         if: steps.manifest.outputs.exists != 'true'
         with:
-          node-version: 20
+          node-version: 26
 
       - name: Sign with AMO (unlisted)
         if: steps.manifest.outputs.exists != 'true'
         env:
           WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
           WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
-        run: npx --yes web-ext@8.3.0 sign --channel unlisted --artifacts-dir dist
+        run: npx --yes web-ext@10.8.0 sign --channel unlisted --artifacts-dir dist
 
       - name: Create release
         if: steps.manifest.outputs.exists != 'true'
@@ -61,7 +61,7 @@ jobs:
           gh release create "$SLUG-v$VERSION" "$SLUG-$VERSION.xpi" \
             --repo "$RELEASES_REPO" --title "$SLUG v$VERSION" --notes ""
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         if: steps.manifest.outputs.exists != 'true'
         with:
           repository: crampenn/firefox-addons
