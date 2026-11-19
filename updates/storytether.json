@@ -3,8 +3,8 @@
     "storytether@local": {
       "updates": [
         {
-          "version": "1.2",
-          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/storytether-v1.2/storytether-1.2.xpi"
+          "version": "1.3",
+          "update_link": "https://github.com/crampenn/firefox-addons/releases/download/storytether-v1.3/storytether-1.3.xpi"
         }
       ]
     }
